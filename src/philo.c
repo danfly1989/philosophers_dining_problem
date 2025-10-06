@@ -19,7 +19,8 @@ void	*philo_routine(void *arg)
 	philo = (t_philo *)arg;
 	for (int meal = 0; meal < 20; meal++)
 	{
-		printf("%ld %d is thinking\n", get_current_time() - philo->start_time, philo->id);
+		printf("%ld %d is thinking\n", get_current_time() - philo->start_time,
+			philo->id);
 		usleep(200 * 1000);
 		if (philo->id % 2 == 0)
 		{
@@ -31,7 +32,8 @@ void	*philo_routine(void *arg)
 			pthread_mutex_lock(philo->right_fork);
 			pthread_mutex_lock(philo->left_fork);
 		}
-		printf("%ld %d is eating\n", get_current_time() - philo->start_time, philo->id);
+		printf("%ld %d is eating\n", get_current_time() - philo->start_time,
+			philo->id);
 		usleep(philo->time_to_eat * 1000);
 		if (philo->id % 2 == 0)
 		{
@@ -43,9 +45,11 @@ void	*philo_routine(void *arg)
 			pthread_mutex_unlock(philo->right_fork);
 			pthread_mutex_unlock(philo->left_fork);
 		}
-		printf("%ld %d is sleeping\n", get_current_time() - philo->start_time, philo->id);
+		printf("%ld %d is sleeping\n", get_current_time() - philo->start_time,
+			philo->id);
 		usleep(philo->time_to_sleep * 1000);
-		printf("%ld %d finished one cycle\n",get_current_time() - philo->start_time, philo->id);
+		printf("%ld %d finished one cycle\n", get_current_time()
+			- philo->start_time, philo->id);
 	}
 	return (NULL);
 }
@@ -75,7 +79,7 @@ void	ft_init_philos(t_config *conf)
 	while (i < conf->num_philos)
 	{
 		conf->philos[i].id = i + 1;
-		conf->philos[i].start_time = get_current_time();
+		conf->philos[i].start_time = start_time;
 		conf->philos[i].left_fork = &conf->forks[i];
 		conf->philos[i].right_fork = &conf->forks[(i + 1) % conf->num_philos];
 		conf->philos[i].time_to_eat = conf->time_to_eat;
