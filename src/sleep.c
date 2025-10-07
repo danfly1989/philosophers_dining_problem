@@ -1,35 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi_positive.c                                 :+:      :+:    :+:   */
+/*   sleep.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: daflynn <daflynn@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/06 10:50:51 by daflynn           #+#    #+#             */
-/*   Updated: 2025/10/06 11:18:41 by daflynn          ###   ########.fr       */
+/*   Created: 2025/10/07 16:57:35 by daflynn           #+#    #+#             */
+/*   Updated: 2025/10/07 16:57:42 by daflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_atoi_positive(char *str)
+long	get_current_time(void)
 {
-	int	result;
-	int	i;
+	struct timeval	tv;
 
-	result = 0;
-	i = 0;
-	if (str[0] == '-')
-		return (-1);
-	while (str[i] == '+' || str[i] == ' ' || str[i] == '\t')
-		i++;
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		result = (result * 10) + (str[i] - '0');
-		i++;
-	}
-	if (result <= 0 || str[i] != '\0')
-		return (-1);
-	else
-		return (result);
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+}
+
+void	ft_sleep(long milliseconds)
+{
+	long	start;
+	long	target;
+
+	start = get_current_time();
+	target = start + milliseconds;
+	while (get_current_time() < target)
+		usleep(500);
 }
