@@ -41,22 +41,10 @@ of "death". It might be more aesthetic if it were more
 focused. This is virtually unchanged from the original sequence
 because it was easily done with a pointer to the philo struct
 to appease Norminette*/
-static void	end_phase(t_philo *philo)
-{
-	take_or_leave_fork(philo, 1);
-	printf("%ld %d is eating\n", get_current_time() - philo->start_time,
-		philo->id);
-	pthread_mutex_lock(philo->meal_mutex);
-	philo->last_meal = get_current_time();
-	pthread_mutex_unlock(philo->meal_mutex);
-	ft_sleep(philo->conf->time_to_eat);
-	take_or_leave_fork(philo, 0);
-	printf("%ld %d is sleeping\n", get_current_time() - philo->start_time,
-		philo->id);
-	ft_sleep(philo->conf->time_to_sleep);
-	printf("%ld %d finished one cycle\n", get_current_time()
-		- philo->start_time, philo->id);
-}
+// static void	end_phase(t_philo *philo)
+// {
+// 	(void)philo;
+// }
 
 void	*philo_routine(void *arg)
 {
@@ -81,7 +69,19 @@ void	*philo_routine(void *arg)
 		if (dead)
 			return (NULL);
 		pthread_mutex_unlock(&philo->conf->death_mutex);
-		end_phase(philo);
+		take_or_leave_fork(philo, 1);
+		printf("%ld %d is eating\n", get_current_time() - philo->start_time,
+			philo->id);
+		pthread_mutex_lock(philo->meal_mutex);
+		philo->last_meal = get_current_time();
+		pthread_mutex_unlock(philo->meal_mutex);
+		ft_sleep(philo->conf->time_to_eat);
+		take_or_leave_fork(philo, 0);
+		printf("%ld %d is sleeping\n", get_current_time() - philo->start_time,
+			philo->id);
+		ft_sleep(philo->conf->time_to_sleep);
+		printf("%ld %d finished one cycle\n", get_current_time()
+			- philo->start_time, philo->id);
 	}
 	return (NULL);
 }
